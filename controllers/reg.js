@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var findExistEmail = require.main.require('./models/findExistEmail');
+var regModel = require.main.require('./models/reg-model');
 
 
 router.get('/', function(req, res){
@@ -28,7 +29,18 @@ router.post('/', function(req, res){
 			}
 			else
 			{
-				console.log("works");
+				regModel.insertUser(user,function(flag){
+
+					if(flag!=false)
+					{
+						res.render('reg/index',{msg: 'One row inserted'});
+					}
+					else
+					{
+						res.render('reg/index',{msg: 'Error occured'});
+					}
+
+				});
 			}
 	});
 }
