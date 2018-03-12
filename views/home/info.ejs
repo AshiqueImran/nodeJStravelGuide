@@ -16,16 +16,15 @@
       <% if (typeof msg != "undefined") { %>
         <h2 class="text-center" style="color: red"><%= msg %></h2>
       <% } %>
+  <h2>Name of the place: <b><%= result[0].plcaeName %></b></h2> <br>
+  <p><b>Details: </b><%= result[0].details %></p><br>
+  <p><b>Hotel name: </b><%= result[0].hotel %></p><br>
+  <p><b>Category: </b><%= result[0].category %></p><br>
+  <h3>Booking fee 500  taka bKash account 01XXXXXXXXX</h3>
 
-		<h2>Places you can visit</h2><br>
-    <ol>
-    <% for(var i=0;i<result.length;i++) { %>
-        <li> 
-          <a href="home/place/<%= result[i].plcaeName %>">
-            <%= result[i].plcaeName %> 
-          </a> </li> <br>
-        <% } %>
-      </ol>
+  <button class="btn btn-success center-block">Book Now!</button>
+
+
  </div>
 </body>
 </html>
