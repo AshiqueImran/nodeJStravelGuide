@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var placeNames = require.main.require('./models/home-model');
 var placeDetails = require.main.require('./models/details-model');
+var booking= require.main.require('./models/booking-model');
 
 router.get('/', function(req, res){
 
@@ -20,11 +21,48 @@ router.get('/', function(req, res){
 	
 });
 
+router.get('/bookNow', function(req, res){
+	res.render('home/bookNow');
+});
+
+
+router.post('/bookNow', function(req, res){
+	//console.log(req.body.trx);
+	//console.log(req.body.mobile);
+	var info = {
+		email: req.session.loggedUser,
+		trx: req.body.trx,
+		mobile: req.body.mobile,
+		place: req.session.place,
+		hotel: req.session.hotel,
+		price: 2000,
+		status: 'applied'
+	};
+	req.body.trx=null;
+	req.body.mobile=null;
+
+	booking.setBooking(info, function(valid){
+		if(valid)
+		{
+			res.render('home/bookNow',{msg: 'Request is submitted for approval !!'});		
+		}
+		else
+		{
+			res.render('home/bookNow',{msg: 'Error occured !!'});
+		}
+
+	});
+
+});
+
 router.get('/place/:name', function(req, res){
 	//console.log(req.params.name);
+	//console.log(req.session.loggedUser);
 	placeDetails.getPlaceDetails(req.params.name,function(result){
 		if(result != false)
 		{
+			req.session.place=result[0].plcaeName;
+			req.session.hotel=result[0].hotel;
 			res.render('home/info',{result: result});
 		}
 		else
@@ -34,5 +72,6 @@ router.get('/place/:name', function(req, res){
 	});
 
 });
+
 
 module.exports = router;
