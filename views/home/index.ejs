@@ -10,9 +10,14 @@
 </head>
 <body>
  <div class="container">
-		<a href="logout">
-			<button class="btn btn-danger pull-right">Logout</button>
-		</a>
+    <div class="button-group text-center">
+    <a href="/home/allBookings">
+      <button class="btn btn-warning">Show Bookings</button>
+    </a>
+    <a href="logout">
+      <button class="btn btn-danger">Logout</button>
+    </a>
+  </div><br>
       <% if (typeof msg != "undefined") { %>
         <h2 class="text-center" style="color: red"><%= msg %></h2>
       <% } %>

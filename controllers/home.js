@@ -4,6 +4,7 @@ var router = express.Router();
 var placeNames = require.main.require('./models/home-model');
 var placeDetails = require.main.require('./models/details-model');
 var booking= require.main.require('./models/booking-model');
+var allBooking= require.main.require('./models/allBooking-model');
 
 router.get('/', function(req, res){
 
@@ -25,7 +26,19 @@ router.get('/bookNow', function(req, res){
 	res.render('home/bookNow');
 });
 
-
+router.get('/allBookings',function(req,res){
+	allBooking.getAllbookings(req.session.loggedUser,function(result){
+		if(result != false)
+		{
+			//console.log(result);
+			res.render('home/allBookings',{result: result});
+		}
+		else
+		{
+			res.render('home/allBookings',{msg: 'something went wrong!!'});
+		}
+	});
+});
 router.post('/bookNow', function(req, res){
 	//console.log(req.body.trx);
 	//console.log(req.body.mobile);
@@ -35,6 +48,7 @@ router.post('/bookNow', function(req, res){
 		mobile: req.body.mobile,
 		place: req.session.place,
 		hotel: req.session.hotel,
+		date: req.body.date,
 		price: 2000,
 		status: 'applied'
 	};
