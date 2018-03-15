@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Login</title>
+  <title>Admin Login</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -15,21 +15,18 @@
     <h2 class="text-center" style="color: red"><%= msg %></h2>
       <% } %>
     <% if (typeof msg == "undefined") { %>
-      <h2 class="text-center">Login Please!</h2>
+      <h2 class="text-center">Admin panel!</h2>
     <% } %>
-    <div class= "button-group text-center center-block">
-      <a href="/admin"> <button class="btn btn-primary"> Go to admin</button></a> 
-
-       <a href="reg"> <button class="btn btn-warning ">Go to registration</button></a> 
- </div>
+  
+   <a href="/login"> <button class="btn btn-warning pull-right">Go to User Login</button></a>
     <br/>
   <form method="post">
     <div class="form-group">
-      <label for="email">Email:</label>
+      <label for="email">Admin Email:</label>
       <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
     </div>
     <div class="form-group">
-      <label for="pwd">Password:</label>
+      <label for="pwd">Admin Password:</label>
       <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
     </div>
 

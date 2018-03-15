@@ -1,6 +1,7 @@
 // DECLARATION
 var express = require('express');
 var router = express.Router();
+
 var placeNames = require.main.require('./models/home-model');
 var placeDetails = require.main.require('./models/details-model');
 var booking= require.main.require('./models/booking-model');

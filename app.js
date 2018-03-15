@@ -8,6 +8,8 @@ var port = 1500;
 
 
 var login = require('./controllers/login');
+var admin = require('./controllers/admin');
+var adminHome = require('./controllers/adminHome');
 var reg = require('./controllers/reg');
 var home = require('./controllers/home');
 var logout = require('./controllers/logout');
@@ -23,12 +25,12 @@ app.use(expressSession({secret: 'My top secret key', saveUninitialized: true, re
 
 // Route
 app.all('*', function(req, res, next){
-	if(req.url == '/' || req.url == '/login' || req.url == '/reg')
+	if(req.url == '/' || req.url == '/login' || req.url == '/reg' || req.url=='/admin')
 	{
 		next();
 		return;
 	}
-	if(req.session.loggedUser == null)
+	if(req.session.loggedUser == null && req.session.loggedAdmin == null)
 	{
 		res.redirect('/login');
 	}
@@ -46,6 +48,8 @@ app.get('/', function(req, res){
 app.use('/login', login);
 app.use('/reg', reg);
 app.use('/home', home);
+app.use('/adminHome', adminHome);
+app.use('/admin',admin);
 app.use('/logout', logout);
 
 // Server startup
