@@ -13,6 +13,9 @@ var getAll = require.main.require('./models/ShowAllInfo-model');
 var deleteInfo = require.main.require('./models/deleteInfo-model');
 var editInfo = require.main.require('./models/editInfo-model');
 var updateInfo = require.main.require('./models/updateInfo-model');
+var checkPass = require.main.require('./models/checkPass-model');
+var updatePass = require.main.require('./models/updatePass-model');
+var deleteEmail = require.main.require('./models/deleteEmail-model');
 
 router.get('/', function(req, res){
 
@@ -214,6 +217,63 @@ router.post('/showAll/edit/:id',function(req,res){
 		else
 		{
 			res.render('admin/home',{msg: 'Sorry!! could not upadte the row'});
+		}
+	});
+});
+
+router.get('/changePass',function(req,res){
+	res.render('admin/changePass',{msg: 'change password'});
+});
+
+router.post('/changePass',function(req,res){
+	var passwords={
+		oldPass: req.body.oldPass,
+		new1: req.body.newPass1,
+		new2: req.body.newPass2
+	};
+	if(passwords.new2 != passwords.new1)
+	{
+		res.render('admin/changePass',{msg: 'Confirm password did not match!'});
+	}
+	else{
+		checkPass.findPass(req.session.loggedAdmin,passwords.oldPass,function(valid){
+			if(valid)
+			{
+				updatePass.update(req.session.loggedAdmin,passwords.new1,function(worked){
+					if(worked)
+					{
+					  res.render('admin/changePass',{msg: 'password updated!'});
+					}
+					else{
+						res.render('admin/changePass',{msg: 'error! password could not updated!'});
+					}
+				});
+				
+			}
+			else{
+				res.render('admin/changePass',{msg: 'old password did not match!'});
+			}
+		});
+	}
+
+});
+
+router.get('/deleteEmail',function(req,res){
+	res.render('admin/deleteEmail',{msg: 'Give the info'});
+});
+
+router.post('/deleteEmail',function(req,res){
+	var data={
+		role:req.body.role,
+		email:req.body.email
+	};
+	deleteEmail.deleteIt(data,function(valid){
+		if(valid)
+		{
+			res.render('admin/deleteEmail',{msg: 'Successful'});
+		}
+		else{
+			res.render('admin/deleteEmail',{msg: 'Error!!'});
 		}
 	});
 });
